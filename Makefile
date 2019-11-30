@@ -1,11 +1,19 @@
+PWD = $(shell pwd)
+UID = $(shell id -u ${USER})
+GID = $(shell id -g ${USER})
+IMAGE_NAME = jpeg_progressive
+
 rm:
-	docker rmi -f jpeg_progressive
+	docker rmi -f ${IMAGE_NAME}
 
 build:
-	docker build . -t jpeg_progressive
+	docker build . -t ${IMAGE_NAME}
 
 create: build
-	docker create jpeg_progressive
+	docker create ${IMAGE_NAME}
 
-progressive: create
-	docker run -v "$(shell pwd)":/tmp/images -u $(shell id -u ${USER}):$(shell id -g ${USER}) jpeg_progressive ./progressive.sh
+progressive:
+	docker run -v "${PWD}":/tmp/images -u "${UID}":"${GID}" "${IMAGE_NAME}" ./progressive.sh
+
+minify:
+	docker run -v "${PWD}":/tmp/images -u "${UID}":"${GID}" "${IMAGE_NAME}" ./minify.sh
