@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-for img in `find . -name "*" | egrep *\.jpe?g$`
+for img in `find . -name "*" | egrep "\.jpe?g$"`
 do
     echo "$img"
     #idout=`identify -verbose $img | grep -i interlace | grep -i none$`
